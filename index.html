@@ -1,14 +1,25 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끝말잇기 게임</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+    <div id="game-container">
+        <h1>끝말잇기 게임</h1>
+        <div id="word-display">제시어: <span id="current-word">시작</span></div>
+        <div id="input-area">
+            <input type="text" id="word-input" placeholder="단어를 입력하세요">
+            <button id="submit-button">입력</button>
+        </div>
+        <p id="message"></p>
+        <div id="history-container">
+            <h2>단어 기록</h2>
+            <ul id="word-history"></ul>
+        </div>
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>
