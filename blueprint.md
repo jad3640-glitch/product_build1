@@ -1,52 +1,38 @@
-# 끝말잇기 Game Blueprint
+# 끝말잇기 게임 & 제휴문의 Blueprint
 
 ## Overview
 
-This document outlines the plan for creating a Korean word chain game called "끝말잇기". The game will be a simple web application where players can input words, and the application will validate them based on the rules of the game.
+이 프로젝트는 한국어 끝말잇기 게임과 제휴 문의를 위한 웹 애플리케이션입니다. 사용자는 끝말잇기 게임을 즐길 수 있으며, Formspree를 통해 제휴 문의를 보낼 수 있습니다.
 
 ## Design and Features
 
 ### Visual Design
-- **Layout**: A clean, centered layout that is easy to use.
-- **Color Palette**: A modern and friendly color scheme with Light and Dark mode support using CSS variables.
-- **Theme Persistence**: User's theme preference is saved in `localStorage`.
-- **Typography**: Clear and readable fonts (Noto Sans KR).
-- **Iconography**: Theme toggle icon (🌓).
-- **Interactivity**: Interactive elements with clear visual feedback and smooth transitions.
+- **Layout**: 게임과 문의 폼이 포함된 반응형 수직 레이아웃.
+- **Color Palette**: 라이트 및 다크 모드를 지원하는 현대적인 컬러 스킴.
+- **Theme Persistence**: `localStorage`를 사용한 테마 설정 유지.
+- **Typography**: 가독성 높은 Noto Sans KR 폰트.
+- **Iconography**: 테마 전환(🌓) 및 직관적인 UI 요소.
 
 ### Features
-1.  **Game Title**: The app will display "끝말잇기 게임" as the main title.
-2.  **Theme Switcher**: A button to toggle between light and dark modes.
-3.  **Word Display**: A section to show the current word.
-4.  **Input Field**: A text input for the user to enter the next word.
-5.  **Submit Button**: A button to submit the entered word.
-6.  **Message Area**: A space to display game-related messages (e.g., "정답입니다!", "틀렸습니다!").
-7.  **Word History**: A list to show all the words that have been played.
+1.  **끝말잇기 게임**: 두 글자 이상의 단어 입력, 중복 체크, 끝말잇기 규칙 검증.
+2.  **테마 전환**: 라이트/다크 모드 토글 기능.
+3.  **제휴 문의 폼**: Formspree(`https://formspree.io/f/mkopdglk`)를 연동한 이메일 문의 기능.
+4.  **기록 관리**: 현재 게임의 단어 참여 기록 표시.
 
 ## Implementation Plan
 
 ### `index.html`
-- Set up the basic HTML structure for the game, including:
-    - A main container for the game.
-    - A theme toggle button.
-    - An `h1` for the title.
-    - A `div` to display the current word.
-    - An `input` field and a `button`.
-    - A `p` tag for messages.
-    - A `ul` to list the word history.
+- 게임 컨테이너와 제휴 문의 폼 컨테이너 구성.
+- 테마 토글 버튼 및 폼 열기/닫기 버튼 추가.
+- Formspree 연동을 위한 `<form>` 태그 구성.
 
 ### `style.css`
-- Apply modern CSS for styling, including:
-    - Centering the game container.
-    - Styling the button, input field, and other elements.
-    - Using CSS variables for both Light and Dark themes.
-    - Adding responsive design for different screen sizes.
+- CSS 변수를 활용한 테마별 스타일 정의.
+- `main-wrapper`를 통한 중앙 정렬 및 간격 조정.
+- 폼 요소(`input`, `textarea`, `button`)의 현대적인 스타일링.
+- `.hidden` 클래스를 통한 폼 표시 제어.
 
 ### `main.js`
-- Implement the game logic and theme management:
-    - Initialize the game with a starting word.
-    - Handle theme switching and persistence.
-    - Handle the word submission event.
-    - Validate the user's input word.
-    - Check for repeated words.
-    - Update the UI with messages and word history.
+- 끝말잇기 게임 로직 (검증, 기록 추가).
+- 테마 전환 및 `localStorage` 연동 로직.
+- 제휴 문의 폼 토글(열기/닫기) 로직.

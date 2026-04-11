@@ -36,14 +36,23 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#game-container {
+#main-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+}
+
+#game-container, #form-container {
     background: var(--container-bg);
     padding: 40px;
     border-radius: 16px;
@@ -53,6 +62,10 @@ body {
     text-align: center;
     transition: all 0.3s ease;
     position: relative;
+}
+
+.hidden {
+    display: none !important;
 }
 
 #theme-toggle {
@@ -73,15 +86,15 @@ body {
     background-color: var(--secondary-color);
 }
 
-h1 {
+h1, h2 {
     color: var(--primary-color);
     margin-bottom: 24px;
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: 700;
 }
 
 #word-display {
-    font-size: 1.5em;
+    font-size: 1.2em;
     margin-bottom: 24px;
     padding: 12px;
     background-color: var(--secondary-color);
@@ -100,7 +113,7 @@ h1 {
     margin-bottom: 16px;
 }
 
-#word-input {
+#word-input, .form-group input, .form-group textarea {
     flex-grow: 1;
     padding: 14px;
     border: 1px solid var(--border-color);
@@ -109,15 +122,17 @@ h1 {
     background-color: var(--container-bg);
     color: var(--text-color);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-#word-input:focus {
+#word-input:focus, .form-group input:focus, .form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
 }
 
-#submit-button {
+#submit-button, #form-submit-btn, #form-toggle-btn {
     padding: 14px 24px;
     border: none;
     background: linear-gradient(135deg, #1a73e8, #4285f4);
@@ -128,17 +143,51 @@ h1 {
     cursor: pointer;
     transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-top: 10px;
 }
 
-#submit-button:hover {
-    background: linear-gradient(135deg, #1868d1, #3b78e6);
+#form-toggle-btn {
+    background: linear-gradient(135deg, #5f6368, #80868b);
+}
+
+#form-close-btn {
+    padding: 10px 20px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-color);
+    border-radius: 8px;
+    font-size: 0.9em;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#submit-button:hover, #form-submit-btn:hover, #form-toggle-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
+.form-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--history-header);
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
 #message {
     min-height: 24px;
-    font-size: 1em;
+    font-size: 0.9em;
     font-weight: 500;
     margin-bottom: 16px;
 }
@@ -149,7 +198,7 @@ h1 {
 }
 
 #history-container h2 {
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: var(--history-header);
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 8px;
@@ -159,7 +208,7 @@ h1 {
 #word-history {
     list-style: none;
     padding: 0;
-    max-height: 150px;
+    max-height: 120px;
     overflow-y: auto;
     background-color: var(--history-bg);
     border-radius: 8px;
@@ -169,6 +218,7 @@ h1 {
 #word-history li {
     padding: 8px 12px;
     border-bottom: 1px solid var(--border-color);
+    font-size: 0.9em;
 }
 
 #word-history li:last-child {

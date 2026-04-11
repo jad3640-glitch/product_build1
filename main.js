@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = document.getElementById('message');
     const wordHistory = document.getElementById('word-history');
     const themeToggle = document.getElementById('theme-toggle');
+    const formContainer = document.getElementById('form-container');
+    const formToggleBtn = document.getElementById('form-toggle-btn');
+    const formCloseBtn = document.getElementById('form-close-btn');
 
     let currentWord = '시작';
     const history = new Set([currentWord]);
@@ -17,6 +20,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
+    });
+
+    // Form Toggle Logic
+    formToggleBtn.addEventListener('click', () => {
+        formContainer.classList.remove('hidden');
+        formToggleBtn.classList.add('hidden');
+        formContainer.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    formCloseBtn.addEventListener('click', () => {
+        formContainer.classList.add('hidden');
+        formToggleBtn.classList.remove('hidden');
     });
 
     function init() {
