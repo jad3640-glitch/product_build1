@@ -22,19 +22,77 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', theme);
     });
 
-    // Form Toggle Logic
-    formToggleBtn.addEventListener('click', () => {
-        formContainer.classList.remove('hidden');
-        formToggleBtn.classList.add('hidden');
-        formContainer.scrollIntoView({ behavior: 'smooth' });
-    });
+    // Animal Face Test Logic
+    const URL = "https://teachablemachine.withgoogle.com/models/ah5XrmvRKk/";
+    let model, webcam, labelContainer, maxPredictions;
+    const webcamStartBtn = document.getElementById('webcam-start-btn');
+    const resultContainer = document.getElementById('result-container');
 
-    formCloseBtn.addEventListener('click', () => {
-        formContainer.classList.add('hidden');
-        formToggleBtn.classList.remove('hidden');
-    });
+    async function initAnimalTest() {
+        webcamStartBtn.disabled = true;
+        webcamStartBtn.textContent = '모델 로딩 중...';
 
-    function init() {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+
+        try {
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+
+            const flip = true;
+            webcam = new tmImage.Webcam(300, 300, flip);
+            await webcam.setup();
+            await webcam.play();
+            window.requestAnimationFrame(loop);
+
+            document.getElementById("webcam-container").appendChild(webcam.canvas);
+            labelContainer = document.getElementById("label-container");
+            for (let i = 0; i < maxPredictions; i++) {
+                const classDiv = document.createElement("div");
+                classDiv.classList.add("result-item");
+                classDiv.innerHTML = `
+                    <div class="class-label">
+                        <span class="class-name"></span>
+                        <span class="class-prob"></span>
+                    </div>
+                    <div class="result-bar">
+                        <div class="result-fill" style="width: 0%"></div>
+                    </div>
+                `;
+                labelContainer.appendChild(classDiv);
+            }
+            resultContainer.classList.remove('hidden');
+            webcamStartBtn.classList.add('hidden');
+        } catch (error) {
+            console.error(error);
+            alert("카메라 권한이 필요하거나 모델을 로드할 수 없습니다.");
+            webcamStartBtn.disabled = false;
+            webcamStartBtn.textContent = '테스트 시작하기 (웹캠)';
+        }
+    }
+
+    async function loop() {
+        webcam.update();
+        await predict();
+        window.requestAnimationFrame(loop);
+    }
+
+    async function predict() {
+        const prediction = await model.predict(webcam.canvas);
+        for (let i = 0; i < maxPredictions; i++) {
+            const classDiv = labelContainer.childNodes[i];
+            const className = prediction[i].className;
+            const probability = (prediction[i].probability * 100).toFixed(0);
+
+            classDiv.querySelector('.class-name').textContent = className === 'Dog' ? '🐶 강아지상' : '🐱 고양이상';
+            classDiv.querySelector('.class-prob').textContent = probability + '%';
+            classDiv.querySelector('.result-fill').style.width = probability + '%';
+        }
+    }
+
+    webcamStartBtn.addEventListener('click', initAnimalTest);
+
+    // Existing Game Logic
         currentWordSpan.textContent = currentWord;
         addWordToHistory(currentWord);
     }
