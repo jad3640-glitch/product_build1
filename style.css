@@ -1,10 +1,38 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
 
+:root {
+    --bg-color: #f0f2f5;
+    --container-bg: #ffffff;
+    --text-color: #333;
+    --primary-color: #1a73e8;
+    --secondary-color: #e8f0fe;
+    --accent-color: #1967d2;
+    --border-color: #dfe1e5;
+    --error-color: #d93025;
+    --success-color: #188038;
+    --history-bg: #f8f9fa;
+    --history-header: #5f6368;
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --container-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --primary-color: #8ab4f8;
+    --secondary-color: #303134;
+    --accent-color: #aecbfa;
+    --border-color: #3c4043;
+    --error-color: #f28b82;
+    --success-color: #81c995;
+    --history-bg: #202124;
+    --history-header: #9aa0a6;
+}
+
 body {
     font-family: 'Noto Sans KR', sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,10 +40,11 @@ body {
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #game-container {
-    background: #ffffff;
+    background: var(--container-bg);
     padding: 40px;
     border-radius: 16px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -23,15 +52,29 @@ body {
     max-width: 500px;
     text-align: center;
     transition: all 0.3s ease;
+    position: relative;
 }
 
-#game-container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+#theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+#theme-toggle:hover {
+    background-color: var(--secondary-color);
 }
 
 h1 {
-    color: #1a73e8;
+    color: var(--primary-color);
     margin-bottom: 24px;
     font-size: 2.5em;
     font-weight: 700;
@@ -41,14 +84,14 @@ h1 {
     font-size: 1.5em;
     margin-bottom: 24px;
     padding: 12px;
-    background-color: #e8f0fe;
+    background-color: var(--secondary-color);
     border-radius: 8px;
     display: inline-block;
 }
 
 #current-word {
     font-weight: 700;
-    color: #1967d2;
+    color: var(--accent-color);
 }
 
 #input-area {
@@ -60,15 +103,17 @@ h1 {
 #word-input {
     flex-grow: 1;
     padding: 14px;
-    border: 1px solid #dfe1e5;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     font-size: 1em;
+    background-color: var(--container-bg);
+    color: var(--text-color);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 #word-input:focus {
     outline: none;
-    border-color: #1a73e8;
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
 }
 
@@ -91,15 +136,11 @@ h1 {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
-#submit-button:active {
-    transform: translateY(0);
-}
-
 #message {
     min-height: 24px;
     font-size: 1em;
     font-weight: 500;
-    color: #d93025;
+    margin-bottom: 16px;
 }
 
 #history-container {
@@ -109,8 +150,8 @@ h1 {
 
 #history-container h2 {
     font-size: 1.2em;
-    color: #5f6368;
-    border-bottom: 1px solid #dfe1e5;
+    color: var(--history-header);
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 8px;
     margin-bottom: 16px;
 }
@@ -120,14 +161,14 @@ h1 {
     padding: 0;
     max-height: 150px;
     overflow-y: auto;
-    background-color: #f8f9fa;
+    background-color: var(--history-bg);
     border-radius: 8px;
     padding: 8px;
 }
 
 #word-history li {
     padding: 8px 12px;
-    border-bottom: 1px solid #e8eaed;
+    border-bottom: 1px solid var(--border-color);
 }
 
 #word-history li:last-child {
