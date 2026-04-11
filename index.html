@@ -3,21 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>끝말잇기 게임</title>
+    <title>Gemini AI와 끝말잇기</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@google/generative-ai/dist/index.min.js"></script>
 </head>
 <body>
-    <div id="game-container">
-        <h1>끝말잇기 게임</h1>
-        <div id="word-display">제시어: <span id="current-word">시작</span></div>
+    <div id="chat-container">
+        <h1>Gemini AI와 끝말잇기</h1>
+        <div id="chat-box"></div>
         <div id="input-area">
-            <input type="text" id="word-input" placeholder="단어를 입력하세요">
-            <button id="submit-button">입력</button>
-        </div>
-        <p id="message"></p>
-        <div id="history-container">
-            <h2>단어 기록</h2>
-            <ul id="word-history"></ul>
+            <input type="text" id="message-input" placeholder="메시지를 입력하세요...">
+            <button id="send-button">전송</button>
         </div>
     </div>
     <script src="main.js"></script>
