@@ -79,13 +79,22 @@ body {
     min-height: 200px;
 }
 
-#webcam-container canvas {
+#webcam-container canvas, #upload-preview {
     border-radius: 12px;
     width: 100%;
     max-width: 300px;
+    height: auto;
+    object-fit: contain;
 }
 
-#webcam-start-btn {
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+#webcam-start-btn, #upload-label {
     padding: 14px 24px;
     border: none;
     background: linear-gradient(135deg, #34a853, #188038);
@@ -96,9 +105,17 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#webcam-start-btn:hover {
+#upload-label {
+    background: linear-gradient(135deg, #4285f4, #1a73e8);
+}
+
+#webcam-start-btn:hover, #upload-label:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }

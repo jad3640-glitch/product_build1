@@ -12,8 +12,14 @@
             <h1>동물상 테스트</h1>
             <p>당신은 강아지상인가요, 고양이상인가요?</p>
             <div id="webcam-area">
-                <div id="webcam-container"></div>
-                <button id="webcam-start-btn">테스트 시작하기 (웹캠)</button>
+                <div id="webcam-container">
+                    <img id="upload-preview" class="hidden" alt="업로드 미리보기">
+                </div>
+                <div class="button-group">
+                    <button id="webcam-start-btn">실시간 테스트 (웹캠)</button>
+                    <label for="image-upload" id="upload-label">사진 업로드하여 분석</label>
+                    <input type="file" id="image-upload" accept="image/*" class="hidden">
+                </div>
             </div>
             <div id="result-container" class="hidden">
                 <div id="label-container"></div>
