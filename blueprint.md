@@ -22,6 +22,7 @@
     - 확률 그래프 시각화.
 3.  **제휴 문의 폼**: 하단 토글 메뉴로 제공.
 4.  **댓글 시스템**: Disqus 연동.
+5.  **수익화**: 구글 애드센스(Google AdSense) 연동.
 
 ## Implementation Plan
 
