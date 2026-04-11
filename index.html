@@ -113,6 +113,15 @@
         <section id="disqus-container" class="card">
             <h3>사용자 커뮤니티</h3>
             <div id="disqus_thread"></div>
+            <script>
+                (function() {
+                    var d = document, s = d.createElement('script');
+                    s.src = 'https://product-build1.disqus.com/embed.js';
+                    s.setAttribute('data-timestamp', +new Date());
+                    (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>댓글을 보려면 자바스크립트를 활성화해 주세요. <a href="https://disqus.com/?ref_noscript">Disqus 제공</a></noscript>
         </section>
 
         <div id="form-container" class="modal hidden">
