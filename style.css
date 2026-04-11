@@ -52,7 +52,7 @@ body {
     padding: 20px;
 }
 
-#game-container, #form-container {
+#game-container, #form-container, #disqus-container {
     background: var(--container-bg);
     padding: 40px;
     border-radius: 16px;
@@ -62,6 +62,10 @@ body {
     text-align: center;
     transition: all 0.3s ease;
     position: relative;
+}
+
+#disqus-container {
+    text-align: left;
 }
 
 .hidden {

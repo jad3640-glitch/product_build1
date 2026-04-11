@@ -17,7 +17,8 @@
 1.  **끝말잇기 게임**: 두 글자 이상의 단어 입력, 중복 체크, 끝말잇기 규칙 검증.
 2.  **테마 전환**: 라이트/다크 모드 토글 기능.
 3.  **제휴 문의 폼**: Formspree(`https://formspree.io/f/mkopdglk`)를 연동한 이메일 문의 기능.
-4.  **기록 관리**: 현재 게임의 단어 참여 기록 표시.
+4.  **댓글 기능**: Disqus(`https://product-build1.disqus.com/embed.js`)를 연동한 사용자 댓글 커뮤니티 기능.
+5.  **기록 관리**: 현재 게임의 단어 참여 기록 표시.
 
 ## Implementation Plan
 
