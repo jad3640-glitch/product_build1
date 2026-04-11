@@ -92,7 +92,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     webcamStartBtn.addEventListener('click', initAnimalTest);
 
-    // Existing Game Logic
+    // Form Toggle Logic
+    formToggleBtn.addEventListener('click', () => {
+        formContainer.classList.remove('hidden');
+        formToggleBtn.classList.add('hidden');
+        formContainer.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    formCloseBtn.addEventListener('click', () => {
+        formContainer.classList.add('hidden');
+        formToggleBtn.classList.remove('hidden');
+    });
+
+    function init() {
         currentWordSpan.textContent = currentWord;
         addWordToHistory(currentWord);
     }
