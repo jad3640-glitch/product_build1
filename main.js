@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // UI Elements
+    const navGame = document.getElementById('nav-game');
+    const navAnimal = document.getElementById('nav-animal');
+    const gameView = document.getElementById('game-view');
+    const animalView = document.getElementById('animal-view');
+    
     const currentWordSpan = document.getElementById('current-word');
     const wordInput = document.getElementById('word-input');
     const submitButton = document.getElementById('submit-button');
@@ -9,10 +15,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const formToggleBtn = document.getElementById('form-toggle-btn');
     const formCloseBtn = document.getElementById('form-close-btn');
 
-    let currentWord = '시작';
-    const history = new Set([currentWord]);
+    // Animal Test Elements
+    const imageUpload = document.getElementById('image-upload');
+    const uploadPreview = document.getElementById('upload-preview');
+    const resultContainer = document.getElementById('result-container');
+    const placeholderIcon = document.getElementById('placeholder-icon');
 
-    // Theme Toggle Logic
+    const URL = "https://teachablemachine.withgoogle.com/models/ah5XrmvRKk/";
+    let model, labelContainer, maxPredictions;
+
+    // --- Navigation Logic ---
+    function switchView(view) {
+        if (view === 'game') {
+            gameView.classList.remove('hidden');
+            animalView.classList.add('hidden');
+            navGame.classList.add('active');
+            navAnimal.classList.remove('active');
+        } else {
+            gameView.classList.add('hidden');
+            animalView.classList.remove('hidden');
+            navGame.classList.remove('active');
+            navAnimal.classList.add('active');
+        }
+    }
+
+    navGame.addEventListener('click', () => switchView('game'));
+    navAnimal.addEventListener('click', () => switchView('animal'));
+
+    // --- Theme Toggle Logic ---
     const currentTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', currentTheme);
 
@@ -22,15 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('theme', theme);
     });
 
-    // Animal Face Test Logic
-    const URL = "https://teachablemachine.withgoogle.com/models/ah5XrmvRKk/";
-    let model, webcam, labelContainer, maxPredictions;
-    const webcamStartBtn = document.getElementById('webcam-start-btn');
-    const imageUpload = document.getElementById('image-upload');
-    const uploadPreview = document.getElementById('upload-preview');
-    const resultContainer = document.getElementById('result-container');
-    const webcamContainer = document.getElementById('webcam-container');
-
+    // --- Animal Face Test Logic ---
     async function ensureModelLoaded() {
         if (!model) {
             const modelURL = URL + "model.json";
@@ -38,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
             model = await tmImage.load(modelURL, metadataURL);
             maxPredictions = model.getTotalClasses();
             
-            // 레이블 컨테이너 초기화
             labelContainer = document.getElementById("label-container");
             labelContainer.innerHTML = '';
             for (let i = 0; i < maxPredictions; i++) {
@@ -58,62 +79,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function initAnimalTest() {
-        webcamStartBtn.disabled = true;
-        webcamStartBtn.textContent = '모델 로딩 중...';
-
-        try {
-            await ensureModelLoaded();
-            
-            const flip = true;
-            webcam = new tmImage.Webcam(300, 300, flip);
-            await webcam.setup();
-            await webcam.play();
-            window.requestAnimationFrame(loop);
-
-            uploadPreview.classList.add('hidden');
-            webcamContainer.appendChild(webcam.canvas);
-            resultContainer.classList.remove('hidden');
-            webcamStartBtn.classList.add('hidden');
-            document.getElementById('upload-label').classList.add('hidden');
-        } catch (error) {
-            console.error(error);
-            alert("카메라 권한이 필요합니다.");
-            webcamStartBtn.disabled = false;
-            webcamStartBtn.textContent = '실시간 테스트 (웹캠)';
-        }
-    }
-
     async function handleImageUpload(e) {
         const file = e.target.files[0];
         if (!file) return;
 
         const reader = new FileReader();
         reader.onload = async (event) => {
-            // 웹캠 중지 (실행 중인 경우)
-            if (webcam && webcam.canvas) {
-                webcam.stop();
-                if (webcam.canvas.parentNode) {
-                    webcam.canvas.parentNode.removeChild(webcam.canvas);
-                }
-            }
-
             uploadPreview.src = event.target.result;
             uploadPreview.classList.remove('hidden');
+            placeholderIcon.classList.add('hidden');
             resultContainer.classList.remove('hidden');
 
             await ensureModelLoaded();
             await predict(uploadPreview);
         };
         reader.readAsDataURL(file);
-    }
-
-    async function loop() {
-        if (webcam && webcam.canvas) {
-            webcam.update();
-            await predict(webcam.canvas);
-            window.requestAnimationFrame(loop);
-        }
     }
 
     async function predict(imageSource) {
@@ -129,20 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    webcamStartBtn.addEventListener('click', initAnimalTest);
     imageUpload.addEventListener('change', handleImageUpload);
 
-    // Form Toggle Logic
-    formToggleBtn.addEventListener('click', () => {
-        formContainer.classList.remove('hidden');
-        formToggleBtn.classList.add('hidden');
-        formContainer.scrollIntoView({ behavior: 'smooth' });
-    });
-
-    formCloseBtn.addEventListener('click', () => {
-        formContainer.classList.add('hidden');
-        formToggleBtn.classList.remove('hidden');
-    });
+    // --- Word Game Logic ---
+    let currentWord = '시작';
+    const history = new Set([currentWord]);
 
     function init() {
         currentWordSpan.textContent = currentWord;
@@ -151,30 +122,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleWordSubmit() {
         const newWord = wordInput.value.trim();
-
-        if (newWord === '') {
-            showMessage('단어를 입력해주세요.', 'error');
-            return;
-        }
-
-        if (newWord.length <= 1) {
-            showMessage('두 글자 이상의 단어를 입력해주세요.', 'error');
-            return;
-        }
-
-        if (history.has(newWord)) {
-            showMessage('이미 사용된 단어입니다.', 'error');
-            return;
-        }
-
+        if (newWord === '') return showMessage('단어를 입력해주세요.', 'error');
+        if (newWord.length <= 1) return showMessage('두 글자 이상의 단어를 입력해주세요.', 'error');
+        if (history.has(newWord)) return showMessage('이미 사용된 단어입니다.', 'error');
         if (currentWord.charAt(currentWord.length - 1) !== newWord.charAt(0)) {
-            showMessage('틀렸습니다! ' + currentWord.charAt(currentWord.length - 1) + '(으)로 시작하는 단어를 입력하세요.', 'error');
-            return;
+            return showMessage(`'${currentWord.charAt(currentWord.length - 1)}'로 시작하는 단어를 입력하세요.`, 'error');
         }
 
         currentWord = newWord;
         history.add(currentWord);
-
         currentWordSpan.textContent = currentWord;
         wordInput.value = '';
         showMessage('정답입니다!', 'success');
@@ -194,11 +150,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     submitButton.addEventListener('click', handleWordSubmit);
-    wordInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            handleWordSubmit();
+    wordInput.addEventListener('keypress', (e) => e.key === 'Enter' && handleWordSubmit());
+
+    // --- Form Toggle Logic ---
+    formToggleBtn.addEventListener('click', () => {
+        formContainer.classList.toggle('hidden');
+        if (!formContainer.classList.contains('hidden')) {
+            formContainer.scrollIntoView({ behavior: 'smooth' });
         }
     });
+    formCloseBtn.addEventListener('click', () => formContainer.classList.add('hidden'));
 
     init();
 });

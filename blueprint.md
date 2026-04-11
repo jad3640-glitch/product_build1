@@ -2,39 +2,38 @@
 
 ## Overview
 
-이 프로젝트는 한국어 끝말잇기 게임, Teachable Machine을 활용한 동물상 테스트(강아지/고양이), 그리고 제휴 문의 기능을 제공하는 통합 웹 애플리케이션입니다.
+이 프로젝트는 메인 기능인 '끝말잇기 게임'과 부가 기능인 '동물상 테스트'를 제공하는 멀티 뷰 웹 애플리케이션입니다. 상단 메뉴를 통해 기능을 전환할 수 있습니다.
 
 ## Design and Features
 
 ### Visual Design
-- **Aesthetics**: 현대적이고 깔끔한 UI, 카드형 레이아웃, 다층 그림자 효과.
-- **Theme**: 라이트/다크 모드 지원 (시스템 설정 감지 및 사용자 토글).
-- **Interactive**: 버튼 호버 효과, 입력창 글로우 효과, 결과 애니메이션.
+- **Navigation**: 상단 고정 네비게이션 바를 통해 메뉴 이동.
+- **Single Page App (SPA) Style**: 페이지 새로고침 없이 섹션 전환.
+- **Theme**: 라이트/다크 모드 지원.
 - **Typography**: Noto Sans KR.
 
 ### Features
-1.  **동물상 테스트 (New)**: 
-    - Teachable Machine 모델(`ah5XrmvRKk`) 연동.
-    - 웹캠 실시간 분석 및 로컬 이미지 업로드 분석 지원.
-    - 분석 결과(강아지상/고양이상) 및 확률 그래프 표시.
-2.  **끝말잇기 게임**: 
-    - 두 글자 이상의 단어 입력, 중복 체크, 규칙 검증.
-    - 참여 기록 실시간 리스팅.
-3.  **제휴 문의 폼**: Formspree 연동을 통한 이메일 전송.
-4.  **댓글 시스템**: Disqus 연동 커뮤니티.
+1.  **끝말잇기 게임 (Main)**: 
+    - 접속 시 첫 화면에 표시.
+    - 단어 입력, 규칙 검증, 참여 기록 관리.
+2.  **동물상 테스트 (Separate View)**: 
+    - **사진 업로드 전용** (웹캠 제거).
+    - Teachable Machine AI 모델을 통한 강아지/고양이상 분석.
+    - 확률 그래프 시각화.
+3.  **제휴 문의 폼**: 하단 토글 메뉴로 제공.
+4.  **댓글 시스템**: Disqus 연동.
 
 ## Implementation Plan
 
 ### `index.html`
-- Teachable Machine SDK(TF.js, Image) 추가.
-- `animal-test-container` 섹션 추가 (웹캠 영역, 업로드 영역, 결과창).
-- 기존 게임 및 폼 구조 유지.
+- `<nav>` 메뉴 추가 (Home/Animal Test).
+- `section#game-view`, `section#animal-view`로 영역 분리.
+- 동물상 테스트에서 웹캠 버튼 및 캔버스 제거.
 
 ### `style.css`
-- 웹캠 및 업로드 박스(`upload-area`)의 시각적 디자인.
-- 결과 확률을 시각화하는 프로그레스 바 스타일링.
-- 전반적인 카드 디자인 고도화 (Shadow & Border).
+- 네비게이션 바 및 활성 메뉴 스타일링.
+- 섹션 전환 시 부드러운 페이드 인 효과.
 
 ### `main.js`
-- `tmImage` 모델 로드 및 웹캠/이미지 처리 로직.
-- AI 예측 함수 (`predict`) 및 UI 업데이트 로직 통합.
+- 메뉴 클릭 시 `hidden` 클래스를 제어하여 화면 전환.
+- 웹캠 (`tmImage.Webcam`) 관련 코드 전면 삭제.

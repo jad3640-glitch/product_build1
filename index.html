@@ -3,47 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>끝말잇기 게임 & 동물상 테스트</title>
+    <title>끝말잇기 & 동물상 테스트</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="main-wrapper">
-        <div id="animal-test-container">
-            <h1>동물상 테스트</h1>
-            <p>당신은 강아지상인가요, 고양이상인가요?</p>
-            <div id="webcam-area">
-                <div id="webcam-container">
-                    <img id="upload-preview" class="hidden" alt="업로드 미리보기">
-                </div>
-                <div class="button-group">
-                    <button id="webcam-start-btn">실시간 테스트 (웹캠)</button>
-                    <label for="image-upload" id="upload-label">사진 업로드하여 분석</label>
-                    <input type="file" id="image-upload" accept="image/*" class="hidden">
-                </div>
+    <nav id="top-nav">
+        <div class="nav-container">
+            <div class="nav-menu">
+                <button id="nav-game" class="nav-item active">끝말잇기 게임</button>
+                <button id="nav-animal" class="nav-item">동물상 테스트</button>
             </div>
-            <div id="result-container" class="hidden">
-                <div id="label-container"></div>
-            </div>
-        </div>
-
-        <div id="game-container">
             <button id="theme-toggle" aria-label="테마 전환">🌓</button>
-            <h1>끝말잇기 게임</h1>
-            <div id="word-display">
-                현재 단어: <span id="current-word">시작</span>
-            </div>
-            <div id="input-area">
-                <input type="text" id="word-input" placeholder="다음 단어를 입력하세요..." autofocus>
-                <button id="submit-button">입력</button>
-            </div>
-            <p id="message"></p>
-            <div id="history-container">
-                <h2>참여 기록</h2>
-                <ul id="word-history"></ul>
-            </div>
-            <button id="form-toggle-btn">제휴 문의하기</button>
         </div>
+    </nav>
 
+    <div id="main-wrapper">
+        <!-- 끝말잇기 게임 화면 (Main) -->
+        <section id="game-view" class="view-section">
+            <div id="game-container">
+                <h1>끝말잇기 게임</h1>
+                <div id="word-display">
+                    현재 단어: <span id="current-word">시작</span>
+                </div>
+                <div id="input-area">
+                    <input type="text" id="word-input" placeholder="다음 단어를 입력하세요..." autofocus>
+                    <button id="submit-button">입력</button>
+                </div>
+                <p id="message"></p>
+                <div id="history-container">
+                    <h2>참여 기록</h2>
+                    <ul id="word-history"></ul>
+                </div>
+                <button id="form-toggle-btn">제휴 문의하기</button>
+            </div>
+        </section>
+
+        <!-- 동물상 테스트 화면 (Separate Page) -->
+        <section id="animal-view" class="view-section hidden">
+            <div id="animal-test-container">
+                <h1>동물상 테스트</h1>
+                <p>당신은 강아지상인가요, 고양이상인가요?<br>사진을 업로드하여 분석해 보세요!</p>
+                <div id="upload-area">
+                    <div id="preview-container">
+                        <img id="upload-preview" class="hidden" alt="업로드 미리보기">
+                        <div id="placeholder-icon">📸</div>
+                    </div>
+                    <div class="button-group">
+                        <label for="image-upload" id="upload-label">사진 선택하기</label>
+                        <input type="file" id="image-upload" accept="image/*" class="hidden">
+                    </div>
+                </div>
+                <div id="result-container" class="hidden">
+                    <div id="label-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 공통 영역 (제휴문의 및 댓글) -->
         <div id="form-container" class="hidden">
             <h2>제휴 문의</h2>
             <form action="https://formspree.io/f/mkopdglk" method="POST">
@@ -74,9 +90,9 @@
                 (d.head || d.body).appendChild(s);
                 })();
             </script>
-            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script src="main.js"></script>
