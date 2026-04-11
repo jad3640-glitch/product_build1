@@ -42,6 +42,19 @@ document.addEventListener('DOMContentLoaded', () => {
     navGame.addEventListener('click', () => switchView('game'));
     navAnimal.addEventListener('click', () => switchView('animal'));
 
+    // Footer Nav Buttons
+    const btnNavHome = document.querySelector('.btn-nav-home');
+    const btnNavAnimal = document.querySelector('.btn-nav-animal');
+    
+    if (btnNavHome) btnNavHome.addEventListener('click', () => {
+        switchView('game');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    if (btnNavAnimal) btnNavAnimal.addEventListener('click', () => {
+        switchView('animal');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
     // --- Theme Toggle Logic ---
     const currentTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', currentTheme);
