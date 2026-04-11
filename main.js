@@ -161,5 +161,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     formCloseBtn.addEventListener('click', () => formContainer.classList.add('hidden'));
 
+    // --- Privacy Modal Logic ---
+    const btnPrivacy = document.getElementById('btn-privacy');
+    const privacyModal = document.getElementById('privacy-modal');
+    const closePrivacy = document.getElementById('close-privacy');
+
+    btnPrivacy.addEventListener('click', () => privacyModal.classList.remove('hidden'));
+    closePrivacy.addEventListener('click', () => privacyModal.classList.add('hidden'));
+    window.addEventListener('click', (e) => {
+        if (e.target === privacyModal) privacyModal.classList.add('hidden');
+    });
+
     init();
 });
